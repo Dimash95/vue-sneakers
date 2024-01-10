@@ -5,7 +5,7 @@ import Footer from './components/Footer.vue'
 
 <template>
   <div class="">
-    <header class="px-10 border-b border-gray-400">
+    <header class="px-10 border-b border-gray-200">
       <Header />
     </header>
 
@@ -13,7 +13,7 @@ import Footer from './components/Footer.vue'
       <router-view></router-view>
     </main>
 
-    <footer class="px-10 border-t border-gray-400">
+    <footer class="px-10 border-t border-gray-200">
       <Footer />
     </footer>
   </div>
