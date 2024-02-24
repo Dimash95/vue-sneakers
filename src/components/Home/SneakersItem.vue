@@ -1,15 +1,18 @@
 <script setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, inject, ref } from 'vue'
 import axios from 'axios'
 
 const props = defineProps({
   sneakersItem: Object
 })
 
-const plusImage = ref('../../../public/plus.svg')
+const getSneakers = inject('getSneakers')
 
-const onHandleAddToCart = (sneakersItem) => {
-  axios({
+const plusImage = ref('/plus.svg')
+const checked = ref('/checked.svg')
+
+const onHandleAddToCart = async (sneakersItem) => {
+  await axios({
     method: 'post',
     url: 'https://b1364cf1f3ab4cd9.mokky.dev/cart-list',
     data: {
@@ -21,7 +24,29 @@ const onHandleAddToCart = (sneakersItem) => {
       isAdded: true
     }
   })
-  plusImage.value = '../../../public/checked.svg'
+  await axios({
+    method: 'patch',
+    url: `https://b1364cf1f3ab4cd9.mokky.dev/sneakers-list/${sneakersItem.id}`,
+    data: {
+      isAdded: true
+    }
+  })
+  await getSneakers()
+}
+
+const onHandleDeleteFromCart = async (sneakersItem) => {
+  await axios({
+    method: 'delete',
+    url: `https://b1364cf1f3ab4cd9.mokky.dev/cart-list/${sneakersItem.id + 1}`
+  })
+  await axios({
+    method: 'patch',
+    url: `https://b1364cf1f3ab4cd9.mokky.dev/sneakers-list/${sneakersItem.id}`,
+    data: {
+      isAdded: false
+    }
+  })
+  await props.getSneakers()
 }
 </script>
 
@@ -34,7 +59,16 @@ const onHandleAddToCart = (sneakersItem) => {
         <p class="text-gray-400">Цена:</p>
         <p class="font-bold">{{ props.sneakersItem.price }} тг.</p>
       </div>
-      <img :src="plusImage" alt="plus" @click="() => onHandleAddToCart(props.sneakersItem)" />
+      <img
+        :src="props.sneakersItem.isAdded ? checked : plusImage"
+        alt="plus"
+        @click="
+          () =>
+            props.sneakersItem.isAdded
+              ? onHandleDeleteFromCart(props.sneakersItem)
+              : onHandleAddToCart(props.sneakersItem)
+        "
+      />
     </div>
   </div>
 </template>

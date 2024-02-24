@@ -8,7 +8,7 @@ const onHandleChangeMute = () => {
 <template>
   <div class="flex items-end justify-center gap-2">
     <video class="rounded-3xl ml-20" width="900" height="600" autoplay loop muted>
-      <source src="../../../public/video-2.mp4" type="video/mp4" />
+      <source src="/video-2.mp4" type="video/mp4" />
     </video>
     <button @click="onHandleChangeMute">
       <img
