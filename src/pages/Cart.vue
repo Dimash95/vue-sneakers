@@ -4,7 +4,6 @@ import CartList from '@/components/Cart/CartList.vue'
 
 <template>
   <div>
-    <p>Cart</p>
     <CartList />
   </div>
 </template>

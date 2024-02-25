@@ -1,24 +1,20 @@
 <script setup>
-import { onMounted, ref, provide } from 'vue'
-import axios from 'axios'
+import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useSneakersStore } from '@/store/sneakers.js'
 import SneakersItem from '@/components/Home/SneakersItem.vue'
 
-const sneakersList = ref([])
+const sneakersListStore = useSneakersStore()
+const { sneakersList } = storeToRefs(sneakersListStore)
+const { getSneakersList } = sneakersListStore
 
-const getSneakers = async () => {
-  const response = await axios.get('https://b1364cf1f3ab4cd9.mokky.dev/sneakers-list')
-  sneakersList.value = response.data
-}
-
-provide('getSneakers', getSneakers)
-
-onMounted(() => {
-  getSneakers()
+onMounted(async () => {
+  await getSneakersList()
 })
 </script>
 
 <template>
-  <div v-if="sneakersList.length > 0" class="flex flex-wrap justify-between gap-10 mt-10 mx-10">
+  <div v-if="sneakersList" class="flex flex-wrap justify-between gap-10 mt-10 mx-10">
     <SneakersItem
       v-for="sneakersItem in sneakersList"
       :key="sneakersItem.id"

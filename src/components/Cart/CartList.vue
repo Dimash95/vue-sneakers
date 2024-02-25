@@ -18,7 +18,8 @@ onMounted(() => {
 <template>
   <div>
     <div v-if="cartList.length > 0" class="flex flex-wrap justify-between gap-10 mt-10 mx-10">
-      <CartItem v-for="cartItem in cartList" :key="cartItem.id" :cartItem="cartItem"></CartItem>
+      <h1 class="text-2xl font-bold">Cart</h1>
+      <CartItem v-for="cartItem in cartList" :key="cartItem.id" :cartItem="cartItem" />
     </div>
     <div v-else class="flex flex-col items-center justify-center mt-20">
       <p class="text-2xl font-bold">Cart is empty</p>

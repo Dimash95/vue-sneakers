@@ -1,12 +1,12 @@
 <script setup>
-import { defineProps, inject, ref } from 'vue'
+import { defineProps, ref } from 'vue'
 import axios from 'axios'
 
 const props = defineProps({
   sneakersItem: Object
 })
 
-const getSneakers = inject('getSneakers')
+// const getSneakers = inject('getSneakers')
 
 const plusImage = ref('/plus.svg')
 const checked = ref('/checked.svg')
@@ -31,13 +31,13 @@ const onHandleAddToCart = async (sneakersItem) => {
       isAdded: true
     }
   })
-  await getSneakers()
+  await props.getSneakers()
 }
 
 const onHandleDeleteFromCart = async (sneakersItem) => {
   await axios({
     method: 'delete',
-    url: `https://b1364cf1f3ab4cd9.mokky.dev/cart-list/${sneakersItem.id + 1}`
+    url: `https://b1364cf1f3ab4cd9.mokky.dev/cart-list/${sneakersItem.id}`
   })
   await axios({
     method: 'patch',
