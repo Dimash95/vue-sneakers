@@ -1,6 +1,13 @@
 <script setup>
 import { defineProps, ref } from 'vue'
-import axios from 'axios'
+
+import { useCartStore } from '@/store/cart.js'
+import { useSneakersStore } from '@/store/sneakers.js'
+const cartStore = useCartStore()
+const sneakersStore = useSneakersStore()
+
+const { getCartList, deleteCartDetail } = cartStore
+const { updateSneakers } = sneakersStore
 
 const props = defineProps({
   cartItem: Object
@@ -9,17 +16,12 @@ const props = defineProps({
 const closeImage = ref('/close.svg')
 
 const onHandleDeleteFromCart = async (cartItem) => {
-  await axios({
-    method: 'delete',
-    url: `https://b1364cf1f3ab4cd9.mokky.dev/cart-list/${cartItem.id}`
+  await deleteCartDetail(cartItem.id)
+
+  await updateSneakers(cartItem.id - 1, {
+    isAdded: false
   })
-  await axios({
-    method: 'patch',
-    url: `https://b1364cf1f3ab4cd9.mokky.dev/sneakers-list/${cartItem.id - 1}`,
-    data: {
-      isAdded: false
-    }
-  })
+  await getCartList()
 }
 </script>
 

@@ -1,17 +1,15 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+
 import CartItem from '@/components/Cart/CartItem.vue'
-import axios from 'axios'
-
-const cartList = ref([])
-
-const getCart = async () => {
-  const response = await axios.get('https://b1364cf1f3ab4cd9.mokky.dev/cart-list')
-  cartList.value = response.data
-}
+import { useCartStore } from '@/store/cart.js'
+const cartStore = useCartStore()
+const { getCartList } = cartStore
+const { cartList } = storeToRefs(cartStore)
 
 onMounted(() => {
-  getCart()
+  getCartList()
 })
 </script>
 

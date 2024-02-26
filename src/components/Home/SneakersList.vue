@@ -4,9 +4,9 @@ import { storeToRefs } from 'pinia'
 import { useSneakersStore } from '@/store/sneakers.js'
 import SneakersItem from '@/components/Home/SneakersItem.vue'
 
-const sneakersListStore = useSneakersStore()
-const { sneakersList } = storeToRefs(sneakersListStore)
-const { getSneakersList } = sneakersListStore
+const sneakersStore = useSneakersStore()
+const { sneakersList } = storeToRefs(sneakersStore)
+const { getSneakersList } = sneakersStore
 
 onMounted(async () => {
   await getSneakersList()

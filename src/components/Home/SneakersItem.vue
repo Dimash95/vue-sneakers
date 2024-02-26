@@ -1,52 +1,46 @@
 <script setup>
-import { defineProps, ref } from 'vue'
-import axios from 'axios'
+import { ref } from 'vue'
+
+// import { storeToRefs } from 'pinia'
+import { useSneakersStore } from '@/store/sneakers.js'
+import { useCartStore } from '@/store/cart.js'
+const sneakersStore = useSneakersStore()
+const cartStore = useCartStore()
+
+// const { sneakersDetail } = storeToRefs(sneakersStore)
+const { getSneakersList, updateSneakers } = sneakersStore
+const { createCartDetail, deleteCartDetail } = cartStore
 
 const props = defineProps({
   sneakersItem: Object
 })
 
-// const getSneakers = inject('getSneakers')
-
 const plusImage = ref('/plus.svg')
 const checked = ref('/checked.svg')
 
 const onHandleAddToCart = async (sneakersItem) => {
-  await axios({
-    method: 'post',
-    url: 'https://b1364cf1f3ab4cd9.mokky.dev/cart-list',
-    data: {
-      id: sneakersItem.id,
-      title: sneakersItem.title,
-      price: sneakersItem.price,
-      imageUrl: sneakersItem.imageUrl,
-      isFavorite: sneakersItem.isFavorite,
-      isAdded: true
-    }
+  await createCartDetail({
+    id: sneakersItem.id,
+    title: sneakersItem.title,
+    price: sneakersItem.price,
+    imageUrl: sneakersItem.imageUrl,
+    isFavorite: sneakersItem.isFavorite,
+    isAdded: true
   })
-  await axios({
-    method: 'patch',
-    url: `https://b1364cf1f3ab4cd9.mokky.dev/sneakers-list/${sneakersItem.id}`,
-    data: {
-      isAdded: true
-    }
+
+  await updateSneakers(sneakersItem.id, {
+    isAdded: true
   })
-  await props.getSneakers()
+
+  await getSneakersList()
 }
 
 const onHandleDeleteFromCart = async (sneakersItem) => {
-  await axios({
-    method: 'delete',
-    url: `https://b1364cf1f3ab4cd9.mokky.dev/cart-list/${sneakersItem.id}`
+  await deleteCartDetail(sneakersItem.id + 1)
+  await updateSneakers(sneakersItem.id, {
+    isAdded: false
   })
-  await axios({
-    method: 'patch',
-    url: `https://b1364cf1f3ab4cd9.mokky.dev/sneakers-list/${sneakersItem.id}`,
-    data: {
-      isAdded: false
-    }
-  })
-  await props.getSneakers()
+  await getSneakersList()
 }
 </script>
 
