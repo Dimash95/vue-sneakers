@@ -9,7 +9,7 @@ export const useCartStore = defineStore('cart', () => {
     cartList,
     async getCartList() {
       try {
-        const response = await axios.get('https://b1364cf1f3ab4cd9.mokky.dev/cart-list/')
+        const response = await axios.get('https://b1364cf1f3ab4cd9.mokky.dev/cart/')
         cartList.value = response.data
       } catch (error) {
         console.error(error)
@@ -17,14 +17,14 @@ export const useCartStore = defineStore('cart', () => {
     },
     async createCartDetail(data) {
       try {
-        await axios.post('https://b1364cf1f3ab4cd9.mokky.dev/cart-list/', data)
+        await axios.post('https://b1364cf1f3ab4cd9.mokky.dev/cart/', data)
       } catch (error) {
         console.error(error)
       }
     },
     async deleteCartDetail(id) {
       try {
-        await axios.delete(`https://b1364cf1f3ab4cd9.mokky.dev/cart-list/${id}/`)
+        await axios.delete(`https://b1364cf1f3ab4cd9.mokky.dev/cart/${id}/`)
       } catch (error) {
         console.error(error)
       }

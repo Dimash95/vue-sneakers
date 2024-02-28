@@ -11,7 +11,7 @@ export const useSneakersStore = defineStore('sneakers', () => {
     sneakersDetail,
     async getSneakersList() {
       try {
-        const response = await axios.get('https://b1364cf1f3ab4cd9.mokky.dev/sneakers-list/')
+        const response = await axios.get('https://b1364cf1f3ab4cd9.mokky.dev/sneakers/')
         sneakersList.value = response.data
       } catch (error) {
         console.error(error)
@@ -19,9 +19,7 @@ export const useSneakersStore = defineStore('sneakers', () => {
     },
     async getSneakersDetail(id) {
       try {
-        const response = await axios.get(
-          `https://b1364cf1f3ab4cd9.mokky.dev/sneakers-detail/${id}/`
-        )
+        const response = await axios.get(`https://b1364cf1f3ab4cd9.mokky.dev/sneakers/${id}/`)
         sneakersDetail.value = response.data
       } catch (error) {
         console.error(error)
@@ -29,14 +27,14 @@ export const useSneakersStore = defineStore('sneakers', () => {
     },
     async createSneakers(data) {
       try {
-        await axios.post('https://b1364cf1f3ab4cd9.mokky.dev/sneakers-list/', data)
+        await axios.post('https://b1364cf1f3ab4cd9.mokky.dev/sneakers/', data)
       } catch (error) {
         console.error(error)
       }
     },
     async updateSneakers(id, data) {
       try {
-        await axios.patch(`https://b1364cf1f3ab4cd9.mokky.dev/sneakers-list/${id}/`, data)
+        await axios.patch(`https://b1364cf1f3ab4cd9.mokky.dev/sneakers/${id}/`, data)
       } catch (error) {
         console.error(error)
       }
